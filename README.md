@@ -1,69 +1,72 @@
 # 📈 Crypto Trend-Following Strategies with Cross-Market Risk Management
 
-This repository contains a complete research and backtesting pipeline for **trend-following strategies in crypto markets**, focused primarily on **Bitcoin and top altcoins**. It integrates historical data collection, strategy development, and performance evaluation.
+This repository contains a complete research and backtesting pipeline for **trend-based crypto strategies**, with a focus on **Bitcoin and high-liquidity altcoins**. The framework combines data scraping, strategy development, and performance analysis using macro and crypto-native signals.
 
 ---
 
-## 🔍 Key Components
+## 🔍 Data Sources
 
 ### 1. Historical Market Cap Snapshots
-We scrape historical monthly snapshots from [CoinMarketCap](https://coinmarketcap.com/historical/), capturing the top-ranked cryptocurrencies by market capitalization on the **first day of each month**.
+We scrape monthly snapshots from [CoinMarketCap](https://coinmarketcap.com/historical/), capturing the top cryptocurrencies by market capitalization on the **first day of each month**.  
+To ensure liquidity, we filter out coins with **market cap below $100M**.
 
-Coins with a market cap below **$100 million** are filtered out to ensure sufficient liquidity.
-
----
-
-### 2. Daily OHLCV Data from Binance
-For every coin in the snapshot that is listed on **Binance** (spot or perpetual futures), we fetch its historical **daily OHLCV data** via Binance’s official API.
-
-This builds a robust, time-aware universe of liquid assets for analysis.
+### 2. Daily OHLCV from Binance
+We download **daily OHLCV data** from Binance (spot and perpetual markets) for each coin listed in the snapshots. This provides a time-aware, liquidity-filtered universe of tradeable assets.
 
 ---
 
-## ⚙️ Implemented Strategies
+## ⚙️ Strategy Overview
 
-### 1. BTC Trend-Following with Risk Management
-- Long-only and Long/Short strategies based on **BTC trend signals**
-- Optional **risk-off overlay** using macro risk signals from the equity market (see below)
+### 1. 🛡️ **BTC Risk-Off Model**
+A defensive overlay designed to reduce or eliminate exposure to Bitcoin based on:
+- **Trend-following signals on BTC** (e.g. moving average slope)
+- A **cross-market risk model** combining:
+  - Breadth signals from the **S&P 500** (Advance-Decline, New High–New Low, VIX z-score)
+  - High-yield **credit spread stress**, evaluated using a Thomas Count-style logic
 
-### 2. Cross-Sectional Momentum (Top Coins)
-- **Long-only momentum** strategy: goes long the top-ranked coins by trailing performance
-- **Long/Short momentum** strategy: goes long the strongest and short the weakest coins
-- Both strategies use **risk-adjusted position sizing** based on asset volatility to target portfolio-level volatility
-
----
-
-## 📉 Cross-Market Risk Overlay (Equity Breadth Model)
-A defensive model derived from the **S&P 500** helps detect **macro risk-off regimes**, combining:
-- Breadth indicators (Advance-Decline, New High–New Low, VIX z-score)
-- High-yield credit spread stress (via a Thomas Count-like method)
-
-When the model detects stress in equities, **BTC exposure is reduced**, reflecting the strong correlation during high-volatility periods.
+BTC exposure is reduced whenever:
+- The equity model enters a **risk-off regime**, or
+- BTC shows persistent **negative trend**
 
 ---
 
-## 📊 Backtesting & Evaluation
+### 2. 📈 **Long-Only Altcoin Trend Strategy**
+This strategy selects a subset of altcoins with the **strongest positive trend** signals (momentum-based), drawn from the top coins by market cap.
 
-All strategies are evaluated with:
-- Core metrics: CAGR, Sharpe Ratio, Max Drawdown
-- Rolling performance and drawdown charts
-- Strategy vs. benchmark comparisons (e.g., BTC buy & hold)
+- Position sizing is **risk-adjusted** using recent asset volatility.
+- The portfolio is scaled to maintain a **target volatility** at the aggregate level.
+- No short positions are taken; cash is held when opportunities are weak.
+
+---
+
+### 3. 🔄 **Long/Short Altcoin Trend Strategy**
+A cross-sectional momentum strategy that goes:
+- **Long** the strongest-trending altcoins
+- **Short** the weakest-trending ones
+
+- Position sizes are volatility-scaled, with the goal of achieving balanced and consistent risk.
+- Maintains a **net exposure close to neutral**, while capturing relative strength differentials.
+
+---
+
+## 📊 Evaluation
+
+Strategies are analyzed using:
+- Core performance metrics: **CAGR, Sharpe Ratio, Max Drawdown**
+- **Rolling statistics** and **drawdown charts**
+- Visual comparisons against benchmark strategies (e.g. BTC buy & hold)
 
 ---
 
 ## 🛠️ Dependencies
 
-This project uses:
-
-- `pandas`, `numpy`, `plotly`, `selenium`, `tqdm`, `requests`
-- `webdriver-manager` (for ChromeDriver automation)
-- `statsmodels`, `scikit-learn` (for modeling and analytics)
-
----
-
-## 📁 Project Structure
-
----
-
-## 📁 Project Structure
-
+```text
+pandas
+numpy
+plotly
+selenium
+tqdm
+requests
+webdriver-manager
+statsmodels
+scikit-learn
