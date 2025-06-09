@@ -1,10 +1,10 @@
-# 📈 Crypto Trend-Following Strategies with Cross-Market Risk Management
+# Crypto Trend-Following Strategies with Cross-Market Risk Management
 
 This repository contains a complete research and backtesting pipeline for **trend-based crypto strategies**, with a focus on **Bitcoin and high-liquidity altcoins**. The framework combines data scraping, strategy development, and performance analysis using macro and crypto-native signals.
 
 ---
 
-## 🔍 Data Sources
+## Data Sources
 
 ### 1. Historical Market Cap Snapshots
 We scrape monthly snapshots from [CoinMarketCap](https://coinmarketcap.com/historical/), capturing the top cryptocurrencies by market capitalization on the **first day of each month**.  
@@ -15,9 +15,9 @@ We download **daily OHLCV data** from Binance (spot and perpetual markets) for e
 
 ---
 
-## ⚙️ Strategy Overview
+## Strategy Overview
 
-### 1. 🛡️ **BTC Risk-Off Model**
+### 1. **BTC Risk-Off Model**
 A defensive overlay designed to reduce or eliminate exposure to Bitcoin based on:
 - **Trend-following signals on BTC** (e.g. moving average slope)
 - A **cross-market risk model** combining:
@@ -30,7 +30,7 @@ BTC exposure is reduced whenever:
 
 ---
 
-### 2. 📈 **Long-Only Altcoin Trend Strategy**
+### 2. **Long-Only Altcoin Trend Strategy**
 This strategy selects a subset of altcoins with the **strongest positive trend** signals (momentum-based), drawn from the top coins by market cap.
 
 - Position sizing is **risk-adjusted** using recent asset volatility.
@@ -39,7 +39,7 @@ This strategy selects a subset of altcoins with the **strongest positive trend**
 
 ---
 
-### 3. 🔄 **Long/Short Altcoin Trend Strategy**
+### 3. **Long/Short Altcoin Trend Strategy**
 A cross-sectional momentum strategy that goes:
 - **Long** the strongest-trending altcoins
 - **Short** the weakest-trending ones
@@ -49,7 +49,7 @@ A cross-sectional momentum strategy that goes:
 
 ---
 
-## 📊 Evaluation
+## Evaluation
 
 Strategies are analyzed using:
 - Core performance metrics: **CAGR, Sharpe Ratio, Max Drawdown**
