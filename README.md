@@ -17,41 +17,33 @@ We download **daily OHLCV data** from Binance (spot and perpetual markets) for e
 
 ## Strategy Overview
 
-### 1. **BTC Risk-Off Model**
-A defensive overlay designed to reduce or eliminate exposure to Bitcoin based on:
-- **Trend-following signals on BTC** (e.g. moving average slope)
-- A **cross-market risk model** combining:
-  - Breadth signals from the **S&P 500** (Advance-Decline, New High–New Low, VIX z-score)
-  - High-yield **credit spread stress**, evaluated using a Thomas Count-style logic
+# Cryptocurrency Trading Strategies
 
-BTC exposure is reduced whenever:
-- The equity model enters a **risk-off regime**, or
-- BTC shows persistent **negative trend**
+This notebook outlines three trend-following strategies applied to the cryptocurrency market.  
+The **first** is the base strategy, while the **second** and **third** are enhancements designed to improve robustness and adaptability.
 
 ---
 
-### 2. **Long-Only Altcoin Trend Strategy**
-This strategy selects a subset of altcoins with the **strongest positive trend** signals (momentum-based), drawn from the top coins by market cap.
+## 1. **Trend on Most Liquid Cryptos by Market Cap** *(Base Strategy)*  
+A trend-following approach that trades only the most liquid cryptocurrencies by market capitalization.  
+It combines **EWMAC** (Exponential Weighted Moving Average Crossover) signals and **Breakout** signals, tested across multiple time windows for greater robustness.  
 
-- Position sizing is **risk-adjusted** using recent asset volatility.
-- The portfolio is scaled to maintain a **target volatility** at the aggregate level.
-- No short positions are taken; cash is held when opportunities are weak.
-
----
-
-### 3. **Long/Short Altcoin Trend Strategy**
-A cross-sectional momentum strategy that goes:
-- **Long** the strongest-trending altcoins
-- **Short** the weakest-trending ones
-
-- Position sizes are volatility-scaled, with the goal of achieving balanced and consistent risk.
-- Maintains a **net exposure close to neutral**, while capturing relative strength differentials.
+- **Continuous positioning:** exposure is proportional to the strength of the signal, avoiding the binary (long/flat) approach.  
+- **Risk management:** each position is volatility-scaled to target a fixed **portfolio volatility**.
 
 ---
 
-## Evaluation
+## 2. **Trend with Market Regime Risk-Off Filter** *(Enhancement 1)*  
+Based on Strategy 1 but with an added **risk-off filter** according to market regime.  
+In unfavorable environments (bearish or sideways markets), pure trend-following tends to underperform, so the filter reduces or removes exposure to protect capital.
 
-Strategies are analyzed using:
-- Core performance metrics: **CAGR, Sharpe Ratio, Max Drawdown**
-- **Rolling statistics** and **drawdown charts**
-- Visual comparisons against benchmark strategies (e.g. BTC buy & hold)
+---
+
+## 3. **Cross-Asset Trend with Hedging and Execution Optimization** *(Enhancement 2)*  
+Similar to Strategy 1 but with two major optimizations:  
+
+1. **Hedging / Market Neutrality:** use of short positions in correlated assets to hedge directional risk and maintain near-zero net exposure.  
+2. **Execution optimization:**  
+   - Use of **limit orders** instead of market orders to reduce fees.  
+   - Application of **ATR** (Average True Range) to optimize average entry price, balancing the trade-off between execution probability and favorable pricing.
+
